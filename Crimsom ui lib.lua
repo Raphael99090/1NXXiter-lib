@@ -95,8 +95,7 @@ function Library.Utils.MakeDraggable(guiObject)
         end
     end))
 end
-
--- ==============================================================================
+    -- ==============================================================================
 -- [ 3. MODULE: COMPONENTS (Building Blocks) ]
 -- ==============================================================================
 Library.Components = {}
@@ -321,8 +320,7 @@ function Library.Components.Dropdown(parent, text, options, callback)
             if callback then pcall(callback, option) end
         end)
     end
-end
-
+    end
 -- ==============================================================================
 -- [ 4. MODULE: WINDOW (The Main Interface) ]
 -- ==============================================================================
@@ -420,7 +418,6 @@ function Library.Window.Create(title)
 
     local Content = Instance.new("Frame", Main)
     Content.Size = UDim2.new(1, -75, 1, -50); Content.Position = UDim2.new(0, 70, 0, 45); Content.BackgroundTransparency = 1
-
     -- Objeto de Janela para Retorno
     local WindowObj = {}
     local FirstTab = true
@@ -465,4 +462,33 @@ function Library.Window.Create(title)
             return function(t) L.Text = t end
         end
 
-        function
+        function TabObj:CriarPerfil()
+            local C = Instance.new("Frame", Scroll); C.Size = UDim2.new(1, -5, 0, 160); C.BackgroundColor3 = Color3.fromRGB(20,20,25)
+            Library.Utils.AddCorner(C, 12); Library.Utils.AddStroke(C, Library.Theme.ItemBg, 1)
+            local Av = Instance.new("ImageLabel", C); Av.Size=UDim2.new(0,70,0,70); Av.Position=UDim2.new(0,15,0,45); Av.BackgroundTransparency=1
+            Library.Utils.AddCorner(Av, 100); Library.Utils.AddStroke(Av, Library.Theme.Accent, 2)
+            task.spawn(function() Av.Image = Players:GetUserThumbnailAsync(Player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size150x150) end)
+            
+            local function Info(t, v, y, color)
+                local L = Instance.new("TextLabel", C); L.Text=t..": "..v; L.Size=UDim2.new(0.6,0,0,18); L.Position=UDim2.new(0,100,0,y); L.BackgroundTransparency=1
+                L.TextColor3=color or Library.Theme.Text; L.Font=Enum.Font.GothamBold; L.TextSize=12; L.TextXAlignment=Enum.TextXAlignment.Left
+            end
+            Info("USER", string.upper(Player.Name), 20, Library.Theme.Text)
+            Info("ID", Player.UserId, 40, Library.Theme.TextDim)
+            Info("ACCESS", "LIFETIME", 60, Library.Theme.Gold)
+            Info("SESSION", "CRM-"..math.random(1000,9999), 80, Library.Theme.Accent)
+            Info("VER", "3.0 PRO", 100, Library.Theme.TextDim)
+            Info("STATUS", "SECURE", 120, Library.Theme.Success)
+        end
+
+        return TabObj
+    end
+
+    -- Expose Notify globally
+    function Library:Notificar(t, txt, time, type) Notify(t, txt, time, type) end
+
+    return WindowObj
+end
+
+-- [ 5. EXPORT ]
+return Library
