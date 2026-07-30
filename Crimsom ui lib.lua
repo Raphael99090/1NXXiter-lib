@@ -2,7 +2,7 @@
     ============================================================
     CRIMSON UI LIBRARY - V3.0 (FULL MODULAR)
     Structure: Fixed Original Version
-    Author: Raphael (Final Fix by Gemini)
+    Author: Raphael ()
     ============================================================
 ]]
 
